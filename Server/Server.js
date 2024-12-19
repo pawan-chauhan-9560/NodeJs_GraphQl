@@ -5,14 +5,19 @@ const { expressMiddleware } = require("@apollo/server/express4");
 const axios = require("axios");
 const cors = require("cors");
 
-const getData = async () => {
+const getData = async (type, id = 0) => {
   try {
-    const response = await axios.get("https://jsonplaceholder.typicode.com/todos");
+    const queryType = type == "todo" ? "todos" : "users";
+    const response = await axios.get(
+      `https://jsonplaceholder.typicode.com/${queryType}${
+        id > 0 ? `/${id}` : ""
+      }`
+    );
     console.log(response.data);
     return response.data;
   } catch (err) {
     console.error("Error fetching data:", err);
-    throw err; 
+    throw err;
   }
 };
 
@@ -23,20 +28,45 @@ async function startServer() {
 
   const server = new ApolloServer({
     typeDefs: `
+    type User{
+    id:ID!
+    name:String!
+    username:String!
+    email:String!
+    phone: String!
+    website:String!
+    }
       type Todo {
         id: ID!
         title: String!
         completed: Boolean
+        user:User
       }
 
       type Query {
         getTodos: [Todo]
+        getAllUser:[User]
+        getUser(id:ID!):User
       }
     `,
     resolvers: {
+      Todo: {
+        user: async (todo) =>
+          (
+            await axios.get(
+              `https://jsonplaceholder.typicode.com/users/${todo.userId}`
+            )
+          ).data,
+      },
       Query: {
         getTodos: async () => {
-          return await getData(); // Fetch data dynamically on query execution
+          return await getData("todo");
+        },
+        getAllUser: async () => {
+          return await getData("user");
+        },
+        getUser: async (parent, { id }) => {
+          return await getData("user", id);
         },
       },
     },
@@ -45,7 +75,7 @@ async function startServer() {
   app.use(express.urlencoded({ extended: true }));
   app.use(bodyParser.json());
   app.use(cors());
-  
+
   await server.start();
   app.use("/graphql", expressMiddleware(server));
 
