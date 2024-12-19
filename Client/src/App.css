@@ -1,0 +1,92 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 10px 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #444;
+}
+
+.App-header h1 {
+  font-size: 1.8rem;
+}
+
+.header-btn {
+  background-color: #61dafb;
+  border: none;
+  padding: 8px 15px;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.header-btn:hover {
+  background-color: #21a1f1;
+}
+
+.todos-container {
+  margin: 20px auto;
+  width: 80%;
+  max-width: 800px;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.todo-item {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 15px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.todo-item:hover {
+  transform: translateY(-5px);
+}
+
+.completed {
+  background-color: #d4edda;
+}
+
+.pending {
+  background-color: #f8d7da;
+}
+
+.user-details {
+  background-color: #e9ecef;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+strong {
+  font-weight: bold;
+}
+
+.loading,
+.error {
+  font-size: 1.2rem;
+  color: #555;
+}
